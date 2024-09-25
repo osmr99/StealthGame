@@ -7,16 +7,66 @@ public class Guard : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform target;
+    [SerializeField] Transform guard;
+    //Rigidbody rb;
+    CharacterController characterController;
+    [SerializeField] float speed;
+    NavMeshPath navPath;
+    Queue<Vector3> remainingPoints;
+    Vector3 currentTargetPoint;
 
     // Start is called before the first frame update
     void Start()
     {
-        agent.SetDestination(target.position);
+        characterController = GetComponent<CharacterController>();
+        navPath = new NavMeshPath();
+        remainingPoints = new Queue<Vector3>();
+
+        if (agent.CalculatePath(target.position, navPath))
+        {
+            Debug.Log("found path to target");
+            foreach(Vector3 p in navPath.corners)
+            {
+                remainingPoints.Enqueue(p);
+            }
+
+            currentTargetPoint = remainingPoints.Dequeue();
+        }
+            
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        var new_forward = (Vector3.zero - transform.position).normalized;
+        new_forward.y = 0;
+        transform.position = new_forward;
+
+        float distToPoint = Vector3.Distance(guard.position, currentTargetPoint);
+        Debug.Log(distToPoint);
+        Debug.Log(currentTargetPoint.x + " and " + currentTargetPoint.z);
+
+        if (distToPoint < 9.1f)
+        {
+            currentTargetPoint = remainingPoints.Dequeue();
+        }
+
+        characterController.Move(new_forward * speed * Time.deltaTime);
     }
+    private void FixedUpdate()
+    {
+        //rb.velocity = transform.forward * speed;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (navPath == null)
+            return;
+
+        Gizmos.color = Color.red;
+        foreach(Vector3 node in navPath.corners)
+        {
+            Gizmos.DrawWireSphere(node, 0.5f);
+        }
+    }
+
 }
