@@ -13,7 +13,11 @@ public class Guard : MonoBehaviour
     [SerializeField] float speed;
     NavMeshPath navPath;
     Queue<Vector3> remainingPoints;
-    Vector3 currentTargetPoint;
+    public Vector3 currentTargetPoint;
+    //public float distToPointX;
+    //public float distToPointZ;
+    //public Vector3 myPoint;
+    public Vector3 new_forward;
 
     // Start is called before the first frame update
     void Start()
@@ -37,18 +41,22 @@ public class Guard : MonoBehaviour
 
     void Update()
     {
-        var new_forward = (Vector3.zero - transform.position).normalized;
+        new_forward = (currentTargetPoint - transform.position).normalized;
         new_forward.y = 0;
-        transform.position = new_forward;
+        guard.position = new_forward;
 
-        float distToPoint = Vector3.Distance(transform.position, currentTargetPoint);
-        Debug.Log("transform position = " + transform.position.x + " and " + transform.position.z);
-        Debug.Log(distToPoint);
-        Debug.Log(currentTargetPoint.x + " and " + currentTargetPoint.z);
+        //distToPointX = Mathf.Lerp(guard.position.x, currentTargetPoint.x, speed);
+        //distToPointZ = Mathf.Lerp(guard.position.z, currentTargetPoint.z, speed);
+        //myPoint = new Vector3(distToPointX, 0.05196404f, distToPointZ);
+        //Debug.Log("guard position = " + guard.position.x + " and " + guard.position.z);
+        //Debug.Log(currentTargetPoint.x + " and " + currentTargetPoint.z);
 
-        if (distToPoint < 1)
+        if (new_forward.x < 0.5f && new_forward.z < 0.5f)
         {
-            currentTargetPoint = remainingPoints.Dequeue();
+            if(remainingPoints.Count > 0)
+            {
+                currentTargetPoint = remainingPoints.Dequeue();
+            }
         }
 
         characterController.Move(new_forward * speed * Time.deltaTime);
