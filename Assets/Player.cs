@@ -50,4 +50,12 @@ public class Player : MonoBehaviour
     {
         isSneaking = !isSneaking;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "Guard 1" || collision.gameObject.name == "Guard 2")
+        {
+            Debug.Log("Game Over");
+        }
+    }
 }

@@ -23,7 +23,7 @@ public class Guard : MonoBehaviour
     public bool spot = false;
     public int timer = 200; // 50 = 1 second
     Vector3 heardSomethingHere;
-    Vector3[] patrolLocationArrays = new Vector3[4];
+    Vector3[] patrolLocationArrays = new Vector3[5];
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +37,20 @@ public class Guard : MonoBehaviour
         //rb = GetComponent<Rigidbody>();
         navPath = new NavMeshPath();
 
-        calculatePath(patrolLocationArrays[0]);
+        int randonNumber = UnityEngine.Random.Range(0, 3);
+        switch(randonNumber)
+        {
+            case 0:
+                calculatePath(patrolLocationArrays[0]);
+                break;
+            case 1:
+                calculatePath(patrolLocationArrays[1]);
+                break;
+            case 2:
+                calculatePath(patrolLocationArrays[3]);
+                break;
+        }
+        
             
     }
 
@@ -50,17 +63,33 @@ public class Guard : MonoBehaviour
             new_forward.y = 0;
             guard.position = new_forward;
 
-            //distToPointX = Mathf.Lerp(guard.position.x, currentTargetPoint.x, speed);
-            //distToPointZ = Mathf.Lerp(guard.position.z, currentTargetPoint.z, speed);
-            //myPoint = new Vector3(distToPointX, 0.05196404f, distToPointZ);
-            //Debug.Log("guard position = " + guard.position.x + " and " + guard.position.z);
-            //Debug.Log(currentTargetPoint.x + " and " + currentTargetPoint.z);
-
-            if (new_forward.x < 0.4f && new_forward.z < 0.4f)
+            if ((new_forward.x < 0.1f && new_forward.z < 0.1f))
             {
                 if (remainingPoints.Count > 0)
                 {
                     currentTargetPoint = remainingPoints.Dequeue();
+                }
+                else
+                {
+                    int randonNumber = UnityEngine.Random.Range(0, 5);
+                    switch (randonNumber)
+                    {
+                        case 0:
+                            calculatePath(patrolLocationArrays[0]);
+                            break;
+                        case 1:
+                            calculatePath(patrolLocationArrays[1]);
+                            break;
+                        case 2:
+                            calculatePath(patrolLocationArrays[2]);
+                            break;
+                        case 3:
+                            calculatePath(patrolLocationArrays[3]);
+                            break;
+                        case 4:
+                            calculatePath(patrolLocationArrays[4]);
+                            break;
+                    }
                 }
             }
 
@@ -70,13 +99,13 @@ public class Guard : MonoBehaviour
         {
             speed = 0;
             agent.SetDestination(target.position);
-            timer = 400;
+            timer = 300;
         }
 
         if (timer == 0)
         {
             investigating = false;
-            timer = 400;
+            timer = 300;
         }
             
 
@@ -84,14 +113,14 @@ public class Guard : MonoBehaviour
     private void FixedUpdate() // Updates 50 times a frame
     {
         //rb.velocity = transform.forward * speed;
-        if (investigating && !foundYou && timer == 400)
+        if (investigating && !foundYou && timer == 300)
         {
             speed = 0;
             spot = true;
             InvestigateHere();
             timer--;
         }
-        else if (timer != 400 && timer != 0)
+        else if (timer != 300 && timer != 0)
         {
             agent.SetDestination(heardSomethingHere);
             timer--;
@@ -134,5 +163,4 @@ public class Guard : MonoBehaviour
             currentTargetPoint = remainingPoints.Dequeue();
         }
     }
-
 }
