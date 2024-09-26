@@ -41,11 +41,12 @@ public class Guard : MonoBehaviour
         new_forward.y = 0;
         transform.position = new_forward;
 
-        float distToPoint = Vector3.Distance(guard.position, currentTargetPoint);
+        float distToPoint = Vector3.Distance(transform.position, currentTargetPoint);
+        Debug.Log("transform position = " + transform.position.x + " and " + transform.position.z);
         Debug.Log(distToPoint);
         Debug.Log(currentTargetPoint.x + " and " + currentTargetPoint.z);
 
-        if (distToPoint < 9.1f)
+        if (distToPoint < 1)
         {
             currentTargetPoint = remainingPoints.Dequeue();
         }
