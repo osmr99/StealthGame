@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -53,9 +54,10 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "Guard 1" || collision.gameObject.name == "Guard 2")
+        if(collision.gameObject.name == "WinningPad")
         {
-            Debug.Log("Game Over");
+            SceneManager.LoadSceneAsync("Victory");
+            SceneManager.UnloadSceneAsync("SampleScene");
         }
     }
 }

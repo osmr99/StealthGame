@@ -79,7 +79,7 @@ public class GuardStates : MonoBehaviour
 
     void UpdatePursue()
     {
-        guard.agent.speed = 2.5f;
+        guard.agent.speed = 3.5f;
         guard.foundYou = true;
         guard.investigating = false;
     }

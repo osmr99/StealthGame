@@ -23,16 +23,15 @@ public class Guard : MonoBehaviour
     public bool spot = false;
     public int timer = 200; // 50 = 1 second
     Vector3 heardSomethingHere;
-    Vector3[] patrolLocationArrays = new Vector3[5];
+    Vector3[] patrolLocationArrays = new Vector3[4];
 
     // Start is called before the first frame update
     void Start()
     {
-        patrolLocationArrays[0] = new Vector3(10, 0, 11);
-        patrolLocationArrays[1] = new Vector3(9, 0, -7);
-        patrolLocationArrays[2] = new Vector3(-9, 0, -10);
-        patrolLocationArrays[3] = new Vector3(-9, 0, 10);
-        patrolLocationArrays[4] = new Vector3(0, 0, 0);
+        patrolLocationArrays[0] = new Vector3(9, 0, -7);
+        patrolLocationArrays[1] = new Vector3(-9, 0, -10);
+        patrolLocationArrays[2] = new Vector3(-9, 0, 10);
+        patrolLocationArrays[3] = new Vector3(0, 0, 0);
         characterController = GetComponent<CharacterController>();
         //rb = GetComponent<Rigidbody>();
         navPath = new NavMeshPath();
@@ -44,7 +43,7 @@ public class Guard : MonoBehaviour
                 calculatePath(patrolLocationArrays[0]);
                 break;
             case 1:
-                calculatePath(patrolLocationArrays[1]);
+                calculatePath(patrolLocationArrays[2]);
                 break;
             case 2:
                 calculatePath(patrolLocationArrays[3]);
@@ -71,7 +70,7 @@ public class Guard : MonoBehaviour
                 }
                 else
                 {
-                    int randonNumber = UnityEngine.Random.Range(0, 5);
+                    int randonNumber = UnityEngine.Random.Range(0, 4);
                     switch (randonNumber)
                     {
                         case 0:
@@ -85,9 +84,6 @@ public class Guard : MonoBehaviour
                             break;
                         case 3:
                             calculatePath(patrolLocationArrays[3]);
-                            break;
-                        case 4:
-                            calculatePath(patrolLocationArrays[4]);
                             break;
                     }
                 }
