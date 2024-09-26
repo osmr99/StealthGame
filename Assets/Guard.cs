@@ -23,6 +23,7 @@ public class Guard : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        //rb = GetComponent<Rigidbody>();
         navPath = new NavMeshPath();
         remainingPoints = new Queue<Vector3>();
 
@@ -51,7 +52,7 @@ public class Guard : MonoBehaviour
         //Debug.Log("guard position = " + guard.position.x + " and " + guard.position.z);
         //Debug.Log(currentTargetPoint.x + " and " + currentTargetPoint.z);
 
-        if (new_forward.x < 0.5f && new_forward.z < 0.5f)
+        if (new_forward.x < 0.4f && new_forward.z < 0.4f)
         {
             if(remainingPoints.Count > 0)
             {
